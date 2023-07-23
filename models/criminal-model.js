@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const criminalSchema = new mongoose.Schema({
     criminalId: {
-        type: String,
+        type: Number,
+        default: new Date().getTime(),
         required: [true, "Please enter criminal id"],
         unique: true,
     },
@@ -10,7 +11,7 @@ const criminalSchema = new mongoose.Schema({
         type: Date,
         default: new Date(Date.now()),
     },
-    fullName: {
+    name: {
         type: String,
         required: [true, "Please enter criminal name"],
     },
@@ -20,9 +21,6 @@ const criminalSchema = new mongoose.Schema({
     address: {
         type: String,
     },
-    profileFileName: {
-        type: String,
-    },
     physicalCharacteristics: {
         type: Object,
     },
@@ -30,15 +28,18 @@ const criminalSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter crime details"],
     },
-    courtInformation: {
-        type: String,
+    arrestedOn:{
+        type: Date,
     },
     courtInformation: {
         type: String,
     },
     probationStatus: {
         type: String,
-    }
+    },
+    criminalPhotoFileName: {
+        type: String,
+    },
 });
 
 module.exports = mongoose.model('criminal', criminalSchema);

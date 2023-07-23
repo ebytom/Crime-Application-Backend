@@ -17,16 +17,13 @@ const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const crimeRouter = require('./routes/crime');
 const criminalRouter = require('./routes/criminal');
+const fileRouter = require('./routes/file');
 
 // express app
 const app = express();
 
 // middlewares
-app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
-    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
-    maxAge: 10000,
-}))
+app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,11 +31,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+app.use('/api/v1/app/file', fileRouter);
 app.use('/api/v1/app/auth', authRouter);
 app.use('/api/v1/app/users', isAuthenticated, usersRouter);
-app.use('/api/v1/admin', isAdmin, adminRouter);
-app.use('/api/v1/crime', crimeRouter);
-app.use('/api/v1/criminal', criminalRouter);
+app.use('/api/v1/app/admin', isAdmin, adminRouter);
+app.use('/api/v1/app/crime', crimeRouter);
+app.use('/api/v1/app/criminal', criminalRouter);
 app.use('/', indexRouter);
 
 // error handler
