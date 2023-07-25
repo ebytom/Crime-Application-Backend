@@ -10,7 +10,7 @@ exports.postCriminal = catchAsyncError(async (req, res, next) => {
     if (!criminal) {
         return next(new ErrorHandler("Error, could not save internal defects", 401));
     }
-    
+
     res.status(201).json({
         success: true,
         message: "criminal details added successfully"
@@ -24,32 +24,26 @@ exports.getCriminal = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Internal defect not found", 400));
     }
 
-    res.status(200).json({ 
-        success: true, 
-        criminal 
+    res.status(200).json({
+        success: true,
+        criminal
     });
 });
 
 exports.getAllCriminals = catchAsyncError(async (req, res, next) => {
-    const headObject = new ApiFeatureHead(criminalModel, req.query.filtered)
-        .filter()
-        .pagination(req.query.currentPage, req.query.docsPerPage);
+    try {
+        const criminals = await criminalModel.find()
 
-    const headCheckList = await headObject.query;
-
-    if (headCheckList.length === 0) {
-        return next(new ErrorHandler("could not find check list", 404));
+        return res.status(200).json({
+            criminals: criminals
+        })
     }
-
-    var totalDoc = await BreakDown.countDocuments(headObject.newQueryStr);
-
-    var totalCount = totalDoc / req.query.docsPerPage
-
-    res.status(201).json({ 
-        success: true, 
-        headCheckList, 
-        totalCount: Math.ceil(totalCount) 
-    });
+    catch {
+        return res.status(500).json({
+            error: error,
+            msg: "error"
+        });
+    }
 });
 
 exports.updateCriminal = catchAsyncError(async (req, res, next) => {
@@ -65,10 +59,10 @@ exports.updateCriminal = catchAsyncError(async (req, res, next) => {
         useFindAndModify: false,
     });
 
-    res.status(202).json({ 
-        success: true, 
-        message: "update succesfully", 
-        result 
+    res.status(202).json({
+        success: true,
+        message: "update succesfully",
+        result
     });
 });
 
@@ -81,8 +75,8 @@ exports.deleteCriminal = catchAsyncError(async (req, res, next) => {
 
     const result = await criminalModel.findByIdAndDelete(req.params.id);
 
-    res.status(202).json({ 
-        success: true, 
-        message: "Deleted succesfully" 
+    res.status(202).json({
+        success: true,
+        message: "Deleted succesfully"
     });
 });
