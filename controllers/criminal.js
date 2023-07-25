@@ -4,7 +4,7 @@ const criminalModel = require('../models/criminal-model');
 
 exports.postCriminal = catchAsyncError(async (req, res, next) => {
     console.log(req.body)
-    const criminal = await criminalModel.create(req.body.criminalData);
+    const criminal = await criminalModel.create(req.body);
 
 
     if (!criminal) {

@@ -3,7 +3,7 @@ const ErrorHandler = require('../middleware/errorHandlers');
 const crimeModel = require('../models/crime-model');
 
 exports.postCrime = catchAsyncError(async (req, res, next) => {
-    const crime = await crimeModel.create(req.body.crimeData);
+    const crime = await crimeModel.create(req.body);
 
     if (!crime) {
         return next(new ErrorHandler("Error, could not save internal defects", 401));
