@@ -29,25 +29,19 @@ exports.getCrime = catchAsyncError(async (req, res, next) => {
 });
 
 exports.getAllCrimes = catchAsyncError(async (req, res, next) => {
-    const headObject = new ApiFeatureHead(crimeModel, req.query.filtered)
-        .filter()
-        .pagination(req.query.currentPage, req.query.docsPerPage);
+    try {
+        const crimes = await crimeModel.find()
 
-    const headCheckList = await headObject.query;
-
-    if (headCheckList.length === 0) {
-        return next(new ErrorHandler("could not find check list", 404));
+        return res.status(200).json({
+            crimes: crimes
+        })
     }
-
-    var totalDoc = await BreakDown.countDocuments(headObject.newQueryStr);
-
-    var totalCount = totalDoc / req.query.docsPerPage
-
-    res.status(201).json({ 
-        success: true, 
-        headCheckList, 
-        totalCount: Math.ceil(totalCount) 
-    });
+    catch {
+        return res.status(500).json({
+            error: error,
+            msg: "error"
+        });
+    }
 });
 
 exports.updateCrime = catchAsyncError(async (req, res, next) => {
