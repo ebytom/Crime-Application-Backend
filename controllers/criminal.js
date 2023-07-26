@@ -34,6 +34,10 @@ exports.getAllCriminals = catchAsyncError(async (req, res, next) => {
     try {
         const criminals = await criminalModel.find()
 
+        if (req.body.searchVal) {
+            criminals = criminals.filter(criminal => criminal.name.startsWith(req.body.searchVal))
+        }
+
         return res.status(200).json({
             criminals: criminals
         })

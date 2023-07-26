@@ -5,7 +5,7 @@ const { postCriminal, getCriminal, getAllCriminals, updateCriminal, deleteCrimin
 router.post('/add', postCriminal);
 router.get('/get', getCriminal);
 router.get('/getAll', getAllCriminals);
-router.post('/update', updateCriminal);
-router.post('/delete', deleteCriminal);
+router.put('/update', updateCriminal);
+router.delete('/delete', deleteCriminal);
 
 module.exports = router;
