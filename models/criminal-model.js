@@ -18,6 +18,9 @@ const criminalSchema = new mongoose.Schema({
     dob: {
         type: Date,
     },
+    gender: {
+        type: String,
+    },
     address: {
         type: String,
     },
