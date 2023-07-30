@@ -6,34 +6,37 @@ const crimeSchema = new mongoose.Schema({
         unique: true,
         required: [true, "Please provide a case ID"],
     },
-    incidentDetails:{
-        type :String ,
-    },
-    date:{
-        type:Date,
-    },
-    location:{
-        type: String, 
-    },
-    type:{
+    incidentDetails: {
         type: String,
     },
-    status:{
+    date: {
+        type: Date,
+    },
+    stringDate: {
         type: String,
     },
-    victim:{
-        type: Object,
-    },
-    suspect:{
+    location: {
         type: String,
     },
-    witness:{
+    type: {
+        type: String,
+    },
+    status: {
+        type: String,
+    },
+    victim: {
         type: Object,
     },
-    policeReport:{
+    suspect: {
+        type: String,
+    },
+    witness: {
         type: Object,
     },
-    mediaReport:{
+    policeReport: {
+        type: Object,
+    },
+    mediaReport: {
         type: Object,
     }
 
