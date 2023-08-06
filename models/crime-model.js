@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const crimeSchema = new mongoose.Schema({
     caseId: {
-        type: String,
+        type: Number,
+        default: new Date().getTime(),
+        required: [true, "Please enter crime Id"],
         unique: true,
-        required: [true, "Please provide a case ID"],
     },
     incidentDetails: {
         type: String,
@@ -38,6 +39,9 @@ const crimeSchema = new mongoose.Schema({
     },
     mediaReport: {
         type: Object,
+    },
+    dateMetaData: {
+        type: Object
     }
 
 });
