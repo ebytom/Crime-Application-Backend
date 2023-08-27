@@ -17,7 +17,14 @@ exports.getFeeds = catchAsyncError(async (req, res, next) => {
         date: yesterdaysDate
     })
 
-    const todaysCrimesIncrease = ((todaysCrimes.length - yesterdaysCrimes.length) / (yesterdaysCrimes.length)) * 100
+    var todaysCrimesIncrease = ((todaysCrimes.length - yesterdaysCrimes.length) / (yesterdaysCrimes.length)) * 100
+    
+    if (isNaN(todaysCrimesIncrease)) {
+        todaysCrimesIncrease = 0
+    }
+    if (!isFinite(todaysCrimesIncrease)) {
+        todaysCrimesIncrease = 100
+    }
 
     const totalCrimes = await crimeModel.find()
 
@@ -126,19 +133,19 @@ exports.getCharts = catchAsyncError(async (req, res, next) => {
 
 
     const year1 = await crimeModel.find({
-        'dateMetaData.year': year-4,
+        'dateMetaData.year': year - 4,
     });
 
     const year2 = await crimeModel.find({
-        'dateMetaData.year': year-3,
+        'dateMetaData.year': year - 3,
     })
 
     const year3 = await crimeModel.find({
-        'dateMetaData.year': year-2,
+        'dateMetaData.year': year - 2,
     })
 
     const year4 = await crimeModel.find({
-        'dateMetaData.year': year-1,
+        'dateMetaData.year': year - 1,
     })
 
     const year5 = await crimeModel.find({
@@ -147,8 +154,8 @@ exports.getCharts = catchAsyncError(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        graph1:{
-            key: [month-4, month-3, month-2, month-1, month],
+        graph1: {
+            key: [year - 4, year - 3, year - 2, year - 1, year],
             data: [year1.length, year2.length, year3.length, year4.length, year5.length]
         },
         graph2: {
